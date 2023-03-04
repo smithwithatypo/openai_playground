@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <head>
-  <title>OpenAI Quickstart</title>
-  <link
-    rel="shortcut icon"
-    href="{{ url_for('static', filename='dog.png') }}"
-  />
+  <title>Stephen</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
 </head>
 
 <body>
-  <img src="{{ url_for('static', filename='dog.png') }}" class="icon" />
-  <h3>Name my pet</h3>
+  <h3>Enter a prompt</h3>
   <form action="/" method="post">
-    <input type="text" name="animal" placeholder="Enter an animal" required />
-    <input type="submit" value="Generate names" />
+    <input type="text" name="prompt" placeholder="Enter a prompt" required />
+    <input type="submit" value="Submit" />
   </form>
+  <button onclick="window.location.href = '/images';">Go to Image Prompt</button>
   {% if result %}
-  <div class="result">{{ result }}</div>
+  <div class="result"> {{ result }} </div>
   {% endif %}
 </body>
