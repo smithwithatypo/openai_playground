@@ -57,23 +57,24 @@ def flashcards():
 
     if request.method == "POST":
         flashcard_prompt = request.form["flashcard_prompt"]
-        response = openai.Completion.create(
-            model="text-curie-001",
-            prompt=generate_flashcards(flashcard_prompt),
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system",
+                    "content": "You are a professional tutor for busy 5th grade students. Summarize the following text as flashcards [front : back]."},
+                {"role": "user", "content": f"{flashcard_prompt}"}
+            ],
             temperature=0,
-            max_tokens=400
+            n=1,
+            max_tokens=1500
         )
-        flashcard_list = response.choices[0].text.lstrip().split('\n')
-        # print(flashcard_list)
+        # flashcards = response.choices[0].message.content
+        flashcard_list = response.choices[0].message.content.lstrip().split(
+            '\n')
+        print(flashcard_list)
 
     return render_template("flashcards.html", flashcards=flashcard_list)
     # return template.render(flashcards=flashcards)
-
-
-def generate_flashcards(flashcard_prompt):
-    return """Pretend to be a professional tutor.
-            Summarize the following text in as few words as possible and make a list of [Topic: Summary] flashcards:
-            {}:""".format(flashcard_prompt)
 
 
 if __name__ == "__main__":

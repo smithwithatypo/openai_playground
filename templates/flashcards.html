@@ -14,10 +14,14 @@
   <button onclick="window.location.href='/';">Go to Text Prompt</button>
   <button onclick="window.location.href='/images';">Go to Image Prompt</button>
 
+
+  <div class="flashcards">
     <ul>
     {% for content in flashcards %}
     <li>{{ content|e }}</li>
     {% endfor %}
     </ul>
+  </div>
+
 
 </body>
