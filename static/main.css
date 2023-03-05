@@ -70,6 +70,11 @@ input[type='submit'] {
   margin: 40px;
 }
 
+.flashcards {
+  font-weight: bold;
+  margin: 40px;
+}
+
 button {
   padding: 12px 12px;
   margin-top: 20px;

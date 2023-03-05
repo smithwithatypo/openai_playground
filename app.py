@@ -3,6 +3,14 @@ import os
 import openai
 from flask import Flask, redirect, render_template, request, url_for
 
+
+# from jinja2 import Environment, PackageLoader, BaseLoader
+# env = Environment(
+#     loader=PackageLoader(BaseLoader()),
+#     keep_trailing_newline=True
+# )
+# template = env.get_template("flashcards.html")
+
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -19,7 +27,7 @@ def index():
             temperature=0,
             max_tokens=100,
         )
-        result = response.choices[0].text
+        result = response.choices[0].text.replace('\n', '\n \n \n')
         # return redirect(url_for("index", result=response.choices[0].text))
 
     # result = request.args.get(f"{result}")
@@ -41,6 +49,31 @@ def images():
         image_url = response['data'][0]['url']
 
     return render_template("images.html", image_url=image_url)
+
+
+@app.route("/flashcards", methods=("GET", "POST"))
+def flashcards():
+    flashcard_list = ""
+
+    if request.method == "POST":
+        flashcard_prompt = request.form["flashcard_prompt"]
+        response = openai.Completion.create(
+            model="text-curie-001",
+            prompt=generate_flashcards(flashcard_prompt),
+            temperature=0,
+            max_tokens=400
+        )
+        flashcard_list = response.choices[0].text.lstrip().split('\n')
+        # print(flashcard_list)
+
+    return render_template("flashcards.html", flashcards=flashcard_list)
+    # return template.render(flashcards=flashcards)
+
+
+def generate_flashcards(flashcard_prompt):
+    return """Pretend to be a professional tutor.
+            Summarize the following text in as few words as possible and make a list of [Topic: Summary] flashcards:
+            {}:""".format(flashcard_prompt)
 
 
 if __name__ == "__main__":
