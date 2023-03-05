@@ -5,20 +5,23 @@
 </head>
 
 <body>
+  <div class="navbar">  
+    <button onclick="window.location.href='/';">Go to Text Prompt</button>
+    <button onclick="window.location.href = '/images';">Go to Image Prompt</button>
+    <button onclick="window.location.href = '/flashcards';">Go to Flashcards</button>
+  </div>
   <h3>Enter an image prompt</h3>
   <form action="/images" method="post">
-    <input type="text" name="image_prompt" placeholder="Enter a prompt" required />
+    <input type="text" name="image_prompt" placeholder="Enter a prompt" autocomplete="off" autofocus required />
     <input type="submit" value="Submit" />
   </form>
 
-  <button onclick="window.location.href = '/';">Go to Text Prompt</button>
-  <button onclick="window.location.href = '/flashcards';">Go to Flashcards</button>
 
 
-  {% if image_url %}
-  <div class="image_url">
-    <a href="{{ image_url }}" target="_blank">Click to open in new tab</a>
+  <div class="image">
+    <img src="{{ image_url }}">
+    <!-- <a href="{{ image_url }}" target="_blank">Click to open in new tab</a> -->
   </div>
   
-  {% endif %}
+
 </body>

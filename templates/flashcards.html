@@ -5,14 +5,18 @@
 </head>
 
 <body>
-  <h3>Enter flashcards</h3>
+    <div class="navbar">  
+        <button onclick="window.location.href='/';">Go to Text Prompt</button>
+        <button onclick="window.location.href = '/images';">Go to Image Prompt</button>
+        <button onclick="window.location.href = '/flashcards';">Go to Flashcards</button>
+      </div>
+  <h3>Enter data to summarize</h3>
   <form action="/flashcards" method="post">
-    <input type="text" name="flashcard_prompt" placeholder="Enter a prompt" required />
+    <input type="text" name="flashcard_prompt" placeholder="Enter a prompt" autocomplete="off" autofocus required />
     <input type="submit" value="Submit" />
   </form>
 
-  <button onclick="window.location.href='/';">Go to Text Prompt</button>
-  <button onclick="window.location.href='/images';">Go to Image Prompt</button>
+
 
 
   <div class="flashcards">

@@ -1,15 +1,8 @@
 import os
 
 import openai
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, render_template, request, url_for
 
-
-# from jinja2 import Environment, PackageLoader, BaseLoader
-# env = Environment(
-#     loader=PackageLoader(BaseLoader()),
-#     keep_trailing_newline=True
-# )
-# template = env.get_template("flashcards.html")
 
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -21,16 +14,20 @@ def index():
 
     if request.method == "POST":
         form_prompt = request.form["prompt"]
-        response = openai.Completion.create(
-            model="text-curie-001",
-            prompt=form_prompt,
-            temperature=0,
-            max_tokens=100,
+        temperature = float(request.form["temperature"])
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system",
+                    "content": "You are a helpful assistant."},
+                {"role": "user", "content": f"{form_prompt}"}
+            ],
+            temperature=temperature,
+            n=1,
+            max_tokens=1000
         )
-        result = response.choices[0].text.replace('\n', '\n \n \n')
-        # return redirect(url_for("index", result=response.choices[0].text))
+        result = response.choices[0].message.content
 
-    # result = request.args.get(f"{result}")
     return render_template("index.html", result=result)
 
 
@@ -61,48 +58,19 @@ def flashcards():
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system",
-                    "content": "You are a professional tutor for busy 5th grade students. Summarize the following text as flashcards [front : back]."},
+                    "content": "You are a tutor for busy college students. Summarize the following text as flashcards [front : back]."},
                 {"role": "user", "content": f"{flashcard_prompt}"}
             ],
             temperature=0,
             n=1,
             max_tokens=1500
         )
-        # flashcards = response.choices[0].message.content
         flashcard_list = response.choices[0].message.content.lstrip().split(
             '\n')
         print(flashcard_list)
 
     return render_template("flashcards.html", flashcards=flashcard_list)
-    # return template.render(flashcards=flashcards)
 
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-
-# Archive / Trash
-
-# @app.route("/", methods=("GET", "POST"))
-# def index():
-#     if request.method == "POST":
-#         animal = request.form["animal"]
-#         response = openai.Completion.create(
-#             model="text-davinci-003",
-#             prompt=generate_prompt(animal),
-#             temperature=0.6,
-#         )
-#         return redirect(url_for("index", result=response.choices[0].text))
-
-#     result = request.args.get("result")
-#     return render_template("index.html", result=result)
-
-
-# def generate_prompt(animal):
-#     return """Suggest three names for an animal that is a superhero.
-# Animal: Cat
-# Names: Captain Sharpclaw, Agent Fluffball, The Incredible Feline
-# Animal: Dog
-# Names: Ruff the Protector, Wonder Canine, Sir Barks-a-Lot
-# Animal: {}
-# Names:""".format(animal.capitalize())

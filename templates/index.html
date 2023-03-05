@@ -5,14 +5,18 @@
 </head>
 
 <body>
-  <h3>Enter a prompt</h3>
+  <div class="navbar">  
+    <button onclick="window.location.href='/';">Go to Text Prompt</button>
+    <button onclick="window.location.href = '/images';">Go to Image Prompt</button>
+    <button onclick="window.location.href = '/flashcards';">Go to Flashcards</button>
+  </div>
+  <h3>Enter a prompt and a temperature 0-2</h3>
   <form action="/" method="post">
-    <input type="text" name="prompt" placeholder="Enter a prompt" required />
+    <input type="text" name="prompt" placeholder="Enter a prompt" autocomplete="off" autofocus required />
+    <input type="number" step=".1" min="0" max="2" value="1" name="temperature" required />
     <input type="submit" value="Submit" />
   </form>
-  <button onclick="window.location.href = '/images';">Go to Image Prompt</button>
-  <button onclick="window.location.href = '/flashcards';">Go to Flashcards</button>
-  {% if result %}
+   {% if result %}
   <div class="result"> {{ result }} </div>
   {% endif %}
 </body>
