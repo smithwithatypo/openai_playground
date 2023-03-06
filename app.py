@@ -58,16 +58,15 @@ def flashcards():
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system",
-                    "content": "You are a tutor for busy college students. Summarize the following text as flashcards [front : back]."},
+                    "content": "You are a tutor for a college student who has very little time to read anything. Summarize the following text as multiple flashcards with bullet points of only the most important points."},
                 {"role": "user", "content": f"{flashcard_prompt}"}
             ],
-            temperature=0,
+            temperature=.1,
             n=1,
             max_tokens=1500
         )
         flashcard_list = response.choices[0].message.content.lstrip().split(
             '\n')
-        print(flashcard_list)
 
     return render_template("flashcards.html", flashcards=flashcard_list)
 

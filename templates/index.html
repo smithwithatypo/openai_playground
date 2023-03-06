@@ -13,7 +13,7 @@
   <h3>Enter a prompt and a temperature 0-2</h3>
   <form action="/" method="post">
     <input type="text" name="prompt" placeholder="Enter a prompt" autocomplete="off" autofocus required />
-    <input type="number" step=".1" min="0" max="2" value="1" name="temperature" required />
+    <input type="number" step=".1" min="0" max="2" value="1" name="temperature" autocomplete="off" required />
     <input type="submit" value="Submit" />
   </form>
    {% if result %}

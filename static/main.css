@@ -87,8 +87,8 @@ input[type='submit'] {
 }
 
 .flashcards {
-  font-weight: bold;
   margin: 40px;
+  font-size: 1em;
 }
 
 button {
