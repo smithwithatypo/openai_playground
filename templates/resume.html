@@ -11,13 +11,20 @@
     <button onclick="window.location.href = '/flashcards';">Go to Flashcards</button>
     <button onclick="window.location.href = '/resume';">Go to Resume</button>
   </div>
-  <h3>Enter a prompt and a temperature 0-2</h3>
-  <form action="/" method="post">
-    <input type="text" name="prompt" placeholder="Enter a prompt" autocomplete="off" autofocus required />
+  <h3>Enter your old role, duties, and a temperature 0-2</h3>
+  <form action="/resume" method="post">
+    <input type="text" name="role" placeholder="Enter a role" autocomplete="off" autofocus required />
+    <input type="text" name="duties" placeholder="Enter your duties" autocomplete="off" autofocus required />
     <input type="number" step=".1" min="0" max="2" value="1" name="temperature" autocomplete="off" required />
     <input type="submit" value="Submit" />
   </form>
-   {% if result %}
-  <div class="result"> {{ result }} </div>
-  {% endif %}
+
+  <div class="resume">
+    <ul style="list-style-type: none;">
+    {% for content in result %}
+    <li style="list-style-type: none;">{{ content|e }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+
 </body>

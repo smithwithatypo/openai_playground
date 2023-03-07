@@ -24,7 +24,7 @@ def index():
             ],
             temperature=temperature,
             n=1,
-            max_tokens=1000
+            max_tokens=1500
         )
         result = response.choices[0].message.content
 
@@ -58,17 +58,43 @@ def flashcards():
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system",
-                    "content": "You are a tutor for a college student who has very little time to read anything. Summarize the following text as multiple flashcards with bullet points of only the most important points."},
+                    "content": "You are a professional tutor for a college student who prefers visual analogies. Summarize the following text with bullet points of only the most important points. Use analogies when possible."},
                 {"role": "user", "content": f"{flashcard_prompt}"}
             ],
             temperature=.1,
             n=1,
-            max_tokens=1500
+            max_tokens=(1500)
         )
         flashcard_list = response.choices[0].message.content.lstrip().split(
             '\n')
 
     return render_template("flashcards.html", flashcards=flashcard_list)
+
+
+@app.route("/resume", methods=("GET", "POST"))
+def resume():
+    result_list = ""
+
+    if request.method == "POST":
+        temperature = float(request.form["temperature"])
+        role = request.form["role"]
+        duties = request.form["duties"]
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system",
+                    "content": "You are a professional resume writer for an early career software engineer."},
+                {"role": "user",
+                    "content": f"Write bullet points for a resume using buzzwords that recruiters look for with the job title {role}, and the duties: {duties}:"},
+            ],
+            temperature=temperature,
+            n=1,
+            max_tokens=1000
+        )
+        result_list = response.choices[0].message.content.lstrip().split(
+            '\n')
+
+    return render_template("resume.html", result=result_list)
 
 
 if __name__ == "__main__":

@@ -91,6 +91,11 @@ input[type='submit'] {
   font-size: 1em;
 }
 
+.resume {
+  margin: 40px;
+  font-size: 1em;
+}
+
 button {
   padding: 12px 12px;
   margin: 5px 10px;
