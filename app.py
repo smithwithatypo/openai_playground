@@ -63,7 +63,7 @@ def flashcards():
             ],
             temperature=.1,
             n=1,
-            max_tokens=(1500)
+            max_tokens=(1000)
         )
         flashcard_list = response.choices[0].message.content.lstrip().split(
             '\n')
